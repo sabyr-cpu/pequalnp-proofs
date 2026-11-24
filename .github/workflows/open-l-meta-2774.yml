@@ -1,0 +1,20 @@
+name: open-L-meta-2774
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  open:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Create PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          gh auth status || true
+          gh api user || true
+          gh pr create --repo brilliant-hq/pequalnp-proofs --head sabyr-cpu:L-meta-2774 --base main --title L-meta-2774 --body "" 2>&1 || true
+          gh pr list --repo brilliant-hq/pequalnp-proofs --head sabyr-cpu:L-meta-2774 --state all --json number,url,author 2>&1
